@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crack The Code - Modulize</title>
+    <style>
+        /* ===== GLOBAL RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .modulize-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .preview-panel {
+            flex: 1;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e1e4e8;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .preview-section {
+            flex: 1;
+            min-height: 200px;
+        }
+
+        .preview-section h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0d1117;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        #modulize-content {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 180px;
+            border: 1px solid #e1e4e8;
+            transition: all 0.2s;
+        }
+
+        #modulize-content .preview-placeholder {
+            color: #57606a;
+            font-size: 14px;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        #modulize-content .notes-editor {
+            width: 100%;
+            min-height: 160px;
+            border: none;
+            background: transparent;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            color: #0d1117;
+        }
+
+        #modulize-content .notes-editor::placeholder {
+            color: #8b949e;
+        }
+
+        .file-preview img,
+        .file-preview iframe {
+            max-width: 100%;
+            border-radius: 6px;
+        }
+
+        .file-preview pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #my-materials-preview {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 140px;
+            border: 1px solid #e1e4e8;
+        }
+
+        #my-materials-preview select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #d0d7de;
+            background: white;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        #my-materials-preview .material-preview {
+            min-height: 80px;
+            color: #57606a;
+            font-size: 14px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px dashed #d0d7de;
+        }
+
+        /* ===== RIGHT PANEL ===== */
+        .tools-panel {
+            flex: 1;
+            background: #ffffff;
+            padding: 24px 28px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e1e4e8;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .tools-panel .module-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0d1117;
+        }
+
+        .tools-panel .module-sub {
+            color: #57606a;
+            font-size: 14px;
+            margin-top: -6px;
+        }
+
+        .tools-panel label {
+            font-weight: 600;
+            display: block;
+            font-size: 14px;
+            color: #0d1117;
+            margin-bottom: 3px;
+        }
+
+        .tools-panel input[type="text"],
+        .tools-panel textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            background: #f6f8fa;
+            transition: border 0.2s;
+        }
+
+        .tools-panel input[type="text"]:focus,
+        .tools-panel textarea:focus {
+            outline: none;
+            border-color: #58a6ff;
+            background: #ffffff;
+        }
+
+        .tools-panel textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+
+        .file-area {
+            border: 2px dashed #d0d7de;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            background: #f6f8fa;
+        }
+
+        .file-area input[type="file"] {
+            display: none;
+        }
+
+        .file-area label {
+            display: inline-block;
+            background: #1f6feb;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .file-area label:hover {
+            background: #1158c7;
+        }
+
+        .file-area p {
+            font-size: 13px;
+            color: #57606a;
+            margin-top: 6px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px solid #e1e4e8;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-save {
+            background: #2da44e;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #22863a;
+        }
+
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-clear:hover {
+            background: #c82333;
+        }
+
+        .btn-export {
+            background: #1f6feb;
+            color: white;
+        }
+        .btn-export:hover {
+            background: #1158c7;
+        }
+
+        .btn-export:disabled {
+            background: #8b949e;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #e9ecef;
+            color: #333;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .modulize-container {
+                flex-direction: column;
+            }
+            .preview-panel,
+            .tools-panel {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="modulize-container">
+
+        <!-- ===== LEFT PANEL ===== -->
+        <div class="preview-panel">
+
+            <!-- TOP ZONE: Modulize Content -->
+            <div class="preview-section">
+                <h3>📄 Modulize Content</h3>
+                <div id="modulize-content">
+                    <div class="preview-placeholder" id="contentPlaceholder">
+                        <p>📝 Upload a file to preview it, or type your notes below.</p>
+                        <textarea class="notes-editor" id="notesEditor" placeholder="Start typing your notes here..."></textarea>
+                    </div>
+                    <div class="file-preview" id="filePreview" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- BOTTOM ZONE: My Materials Preview -->
+            <div class="preview-section">
+                <h3>📚 My Materials</h3>
+                <div id="my-materials-preview">
+                    <select id="materialDropdown">
+                        <option value="">-- No modules created yet --</option>
+                    </select>
+                    <div class="material-preview" id="materialPreview">
+                        Create modules in "My Materials" to see them here.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== RIGHT PANEL ===== -->
+        <div class="tools-panel" id="app">
+
+            <div class="module-title">📘 Modulize Workspace</div>
+            <div class="module-sub">Upload, write, explain, and track your progress.</div>
+
+            <label for="moduleName">1. Module Name</label>
+            <input type="text" id="moduleName" placeholder="e.g., Java Arrays" oninput="autoSave()">
+
+            <label>2. Upload Your Code / Materials</label>
+            <div class="file-area">
+                <label for="fileInput">📎 Choose Files (or drag & drop)</label>
+                <input type="file" id="fileInput" multiple accept=".java,.txt,.html,.css,.js,.py,.md,.pdf,.docx,.png,.jpg,.jpeg,.gif">
+                <p>Supports .java, .txt, .html, .css, .js, .py, .md, .pdf, .png, .jpg</p>
+            </div>
+
+            <label for="explanation">3. My Explanations</label>
+            <textarea id="explanation" placeholder="Write down your own explanations in plain English..." oninput="autoSave()"></textarea>
+
+            <label for="questions">4. My Questions</label>
+            <textarea id="questions" placeholder="Write down any questions you have..." oninput="autoSave()"></textarea>
+
+            <label for="comments">5. General Comments / To-Do</label>
+            <textarea id="comments" placeholder="Add any extra notes or reminders..." oninput="autoSave()"></textarea>
+
+            <div class="status" id="statusMessage">✅ Data is saved automatically (localStorage).</div>
+
+            <div class="button-group">
+                <button class="btn btn-save" onclick="saveProgress()">💾 Save Progress</button>
+                <button class="btn btn-clear" onclick="clearProgress()">🗑️ Clear This Module</button>
+                <button class="btn btn-export" id="exportBtn" disabled onclick="exportReport()">📥 Export Report</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const moduleNameInput = document.getElementById('moduleName');
+        const fileInput = document.getElementById('fileInput');
+        const explanation = document.getElementById('explanation');
+        const questions = document.getElementById('questions');
+        const comments = document.getElementById('comments');
+        const statusMsg = document.getElementById('statusMessage');
+        const exportBtn = document.getElementById('exportBtn');
+
+        const contentPlaceholder = document.getElementById('contentPlaceholder');
+        const filePreview = document.getElementById('filePreview');
+        const notesEditor = document.getElementById('notesEditor');
+        const materialDropdown = document.getElementById('materialDropdown');
+        const materialPreview = document.getElementById('materialPreview');
+
+        // ===== FILE UPLOAD =====
+        fileInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length === 0) {
+                contentPlaceholder.style.display = 'block';
+                filePreview.style.display = 'none';
+                filePreview.innerHTML = '';
+                autoSave();
+                return;
+            }
+
+            contentPlaceholder.style.display = 'none';
+            filePreview.style.display = 'block';
+            filePreview.innerHTML = '';
+
+            let output = document.createElement('div');
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileType = file.type;
+                const fileName = file.name;
+                const fileSize = (file.size / 1024).toFixed(1);
+
+                const item = document.createElement('div');
+                item.style.marginBottom = '15px';
+                item.style.padding = '10px';
+                item.style.border = '1px solid #ddd';
+                item.style.borderRadius = '6px';
+                item.style.background = '#fafafa';
+
+                if (fileType.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        item.innerHTML = `
+                            <strong>🖼️ ${fileName}</strong> (${fileSize} KB)
+                            <br>
+                            <img src="${event.target.result}" style="max-width: 100%; max-height: 300px; border-radius: 6px; margin-top: 8px; border: 1px solid #ccc;">
+                        `;
+                        output.appendChild(item);
+                    };
+                    reader.readAsDataURL(file);
+                } else if (fileType === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const base64 = event.target.result;
+                        item.innerHTML = `
+                            <strong>📄 ${fileName}</strong> (${fileSize} KB)
+                            <br>
+                            <a href="${base64}" target="_blank" style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #dc3545; color: white; border-radius: 4px; text-decoration: none;">📥 Open PDF</a>
+                            <br>
+                            <iframe src="${base64}" style="width: 100%; height: 400px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px;"></iframe>
+                        `;
+                        output.appendChild(item);
+                    };
+                    reader.readAsDataURL(file);
+                } else if (fileType === 'text/plain' ||
+                           fileName.endsWith('.java') ||
+                           fileName.endsWith('.html') ||
+                           fileName.endsWith('.css') ||
+                           fileName.endsWith('.js') ||
+                           fileName.endsWith('.py') ||
+                           fileName.endsWith('.md')) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const content = event.target.result;
+                        const preview = content.length > 1000 ? content.substring(0, 1000) + '\n... (truncated)' : content;
+                        item.innerHTML = `
+                            <strong>📝 ${fileName}</strong> (${fileSize} KB)
+                            <pre style="background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; max-height: 200px; margin-top: 8px;">${preview}</pre>
+                        `;
+                        output.appendChild(item);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    item.innerHTML = `
+                        <strong>📎 ${fileName}</strong> (${fileSize} KB)
+                        <br>
+                        <span style="color: #888; font-size: 13px;">Preview not available for this file type.</span>
+                    `;
+                    output.appendChild(item);
+                }
+            }
+
+            filePreview.appendChild(output);
+            autoSave();
+        });
+
+        // ===== MY MATERIALS DROPDOWN (NOW EMPTY) =====
+        // The dropdown only has the placeholder option.
+        // When we build "My Materials" page, we will populate this dynamically.
+
+        materialDropdown.addEventListener('change', function() {
+            const selected = this.value;
+            if (!selected) {
+                materialPreview.textContent = 'Create modules in "My Materials" to see them here.';
+                return;
+            }
+            // For now, it does nothing since there are no options.
+            materialPreview.textContent = 'Module selected, but no materials linked yet. (Coming soon)';
+        });
+
+        // ===== AUTO-SAVE =====
+        function autoSave() {
+            const moduleName = moduleNameInput.value.trim() || 'default-module';
+            let leftContent = '';
+            if (contentPlaceholder.style.display !== 'none') {
+                leftContent = notesEditor.value || '(No notes typed)';
+            } else {
+                const fileItems = filePreview.querySelectorAll('div');
+                let names = [];
+                fileItems.forEach(el => {
+                    const strong = el.querySelector('strong');
+                    if (strong) names.push(strong.textContent);
+                });
+                leftContent = names.length ? 'Uploaded: ' + names.join(', ') : '(File uploaded)';
+            }
+
+            const data = {
+                moduleName: moduleName,
+                leftContent: leftContent,
+                explanation: explanation.value,
+                questions: questions.value,
+                comments: comments.value,
+                materialSelection: materialDropdown.value || 'none'
+            };
+            localStorage.setItem('crackTheCode_' + moduleName, JSON.stringify(data));
+        }
+
+        notesEditor.addEventListener('input', autoSave);
+
+        // ===== SAVE =====
+        function saveProgress() {
+            autoSave();
+            statusMsg.textContent = '✅ Progress saved!';
+            statusMsg.style.backgroundColor = '#d4edda';
+            statusMsg.style.color = '#155724';
+            exportBtn.disabled = false;
+            setTimeout(() => {
+                statusMsg.style.backgroundColor = '#e9ecef';
+                statusMsg.style.color = '#333';
+                statusMsg.textContent = '✅ Data is saved. Export button is now active.';
+            }, 2000);
+        }
+
+        // ===== CLEAR =====
+        function clearProgress() {
+            const moduleName = moduleNameInput.value.trim() || 'default-module';
+            if (confirm(`Delete all data for "${moduleName}"?`)) {
+                localStorage.removeItem('crackTheCode_' + moduleName);
+                explanation.value = '';
+                questions.value = '';
+                comments.value = '';
+                notesEditor.value = '';
+                filePreview.innerHTML = '';
+                contentPlaceholder.style.display = 'block';
+                filePreview.style.display = 'none';
+                fileInput.value = '';
+                materialDropdown.value = '';
+                materialPreview.textContent = 'Create modules in "My Materials" to see them here.';
+                exportBtn.disabled = true;
+                statusMsg.textContent = '🗑️ Cleared!';
+                statusMsg.style.backgroundColor = '#f8d7da';
+                statusMsg.style.color = '#721c24';
+                setTimeout(() => {
+                    statusMsg.style.backgroundColor = '#e9ecef';
+                    statusMsg.style.color = '#333';
+                    statusMsg.textContent = '✅ Ready. Save to enable export.';
+                }, 2000);
+            }
+        }
+
+        // ===== EXPORT =====
+        function exportReport() {
+            const moduleName = moduleNameInput.value.trim() || 'Unnamed Module';
+
+            let leftContent = '';
+            if (contentPlaceholder.style.display !== 'none') {
+                leftContent = notesEditor.value || '(No notes typed)';
+            } else {
+                const fileItems = filePreview.querySelectorAll('div');
+                let names = [];
+                fileItems.forEach(el => {
+                    const strong = el.querySelector('strong');
+                    if (strong) names.push(strong.textContent);
+                });
+                leftContent = names.length ? 'Uploaded files: ' + names.join(', ') : '(File uploaded)';
+            }
+
+            const material = materialDropdown.value ?
+                `Material from ${materialDropdown.options[materialDropdown.selectedIndex].text}` :
+                'No material selected';
+
+            const report = `
+        ============================================
+        CRACK THE CODE - MODULIZE REPORT
+        ============================================
+
+        Module: ${moduleName}
+        Exported on: ${new Date().toLocaleString()}
+
+        --------------------------------------------
+        LEFT PANEL CONTENT
+        --------------------------------------------
+        ${leftContent}
+
+        --------------------------------------------
+        MATERIALS PREVIEW
+        --------------------------------------------
+        ${material}
+
+        --------------------------------------------
+        EXPLANATIONS
+        --------------------------------------------
+        ${explanation.value || '(No explanations written)'}
+
+        --------------------------------------------
+        QUESTIONS
+        --------------------------------------------
+        ${questions.value || '(No questions written)'}
+
+        --------------------------------------------
+        COMMENTS / TO-DO
+        --------------------------------------------
+        ${comments.value || '(No comments added)'}
+
+        ============================================
+        `;
+
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `modulize-report-${moduleName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+            statusMsg.textContent = '📥 Report downloaded as .txt!';
+            statusMsg.style.backgroundColor = '#d4edda';
+            statusMsg.style.color = '#155724';
+            setTimeout(() => {
+                statusMsg.style.backgroundColor = '#e9ecef';
+                statusMsg.style.color = '#333';
+                statusMsg.textContent = '✅ Export complete.';
+            }, 3000);
+        }
+
+        // ===== LOAD =====
+        function loadProgress() {
+            const moduleName = moduleNameInput.value.trim() || 'default-module';
+            const saved = localStorage.getItem('crackTheCode_' + moduleName);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    explanation.value = data.explanation || '';
+                    questions.value = data.questions || '';
+                    comments.value = data.comments || '';
+                    if (data.leftContent && !data.leftContent.startsWith('Uploaded:')) {
+                        notesEditor.value = data.leftContent;
+                    }
+                    if (data.materialSelection) {
+                        materialDropdown.value = data.materialSelection;
+                        materialDropdown.dispatchEvent(new Event('change'));
+                    }
+                    statusMsg.textContent = '📂 Loaded saved data.';
+                } catch(e) {
+                    console.log('Could not load data');
+                }
+            }
+        }
+
+        moduleNameInput.addEventListener('input', function() {
+            loadProgress();
+            exportBtn.disabled = true;
+        });
+
+        window.onload = function() {
+            loadProgress();
+            exportBtn.disabled = true;
+        };
+    </script>
+
+</body>
+</html>

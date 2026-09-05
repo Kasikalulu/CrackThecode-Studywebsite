@@ -1,0 +1,347 @@
+/* ===== GLOBAL RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+}
+
+/* ===== HEADER (Full width, top) ===== */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+    background: #b4a4ac;
+    border-bottom: 1px solid #d0d7de;
+    height: 70px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.site-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d1117;
+}
+
+.header-center {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: 2px solid #d0d7de;
+    font-size: 14px;
+    background: #f6f8fa;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #58a6ff;
+    background: #ffffff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.icon {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ===== APP LAYOUT (Sidebar + Main) ===== */
+.app {
+    display: flex;
+    height: calc(100vh - 70px); /* Full height minus header */
+    background: #ffffff;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar {
+    width: 260px;
+    background: #b4a4ac;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    flex-shrink: 0;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: #8b949e;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.sidebar nav a:hover {
+    background: #1f2429;
+    color: #ffffff;
+}
+
+.sidebar nav a.active {
+    background: #1f6feb;
+    color: #ffffff;
+}
+
+.sidebar-bottom {
+    border-top: 1px solid #1f2429;
+    padding-top: 24px;
+    margin-top: 10px;
+}
+
+.sidebar-bottom .streak {
+    background: #161b22;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #f0f6fc;
+    border: 1px solid #30363d;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.sidebar-bottom .streak strong {
+    color: #58a6ff;
+}
+
+.sidebar-bottom .quote {
+    font-size: 13px;
+    color: #8b949e;
+    font-style: italic;
+    line-height: 1.6;
+    text-align: center;
+    padding: 0 6px;
+}
+
+/* ===== RIGHT MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    padding: 40px 48px;
+    background: #ece9eb;
+    /* Remove display:flex, align-items, justify-content */
+    overflow-y: auto;
+}
+
+.hero-message {
+    max-width: 700px;
+    text-align: center;
+}
+
+.hero-message h2 {
+    font-size: 28px;
+    color: #0d1117;
+    margin-bottom: 10px;
+}
+
+.hero-message p {
+    margin: 5px 0;
+    color: #24292f;
+    font-size: 18px;
+}
+
+.btn-modulize {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 40px;
+    background: #2da44e;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-modulize:hover {
+    background: #22863a;
+}
+
+/* ===== CONTINUE LEARNING SECTION ===== */
+.continue-learning {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d1117;
+    margin-bottom: 16px;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.module-card {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 12px;
+    padding: 20px;
+    text-decoration: none;
+    color: #0d1117;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.module-card:hover {
+    border-color: #58a6ff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.module-preview {
+    font-size: 40px;
+    margin-bottom: 10px;
+    background: #f6f8fa;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+}
+
+.module-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 8px 0 4px 0;
+}
+
+.module-card p {
+    font-size: 14px;
+    color: #57606a;
+    margin: 0;
+}
+
+/* ===== PROJECTS SECTION ===== */
+.projects-section {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.project-card {
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-decoration: none;
+    color: #0d1117;
+    transition: all 0.2s ease;
+    text-align: center;
+    display: block;
+}
+
+.project-card:hover {
+    border-color: #58a6ff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.progress-card {
+    background: #f6f8fa;
+}
+
+.progress-bar-container {
+    background: #e1e4e8;
+    border-radius: 20px;
+    height: 28px;
+    overflow: hidden;
+    margin: 12px 0 8px 0;
+}
+
+.progress-fill {
+    background: #2da44e;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+}
+
+.create-project {
+    background: #f6f8fa;
+    border: 2px dashed #d0d7de;
+}
+
+.create-project:hover {
+    border-color: #58a6ff;
+    background: #ffffff;
+}
+
+.create-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.project-preview {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.project-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 8px 0 4px 0;
+}
+
+.project-card p {
+    font-size: 14px;
+    color: #57606a;
+    margin: 0;
+}
